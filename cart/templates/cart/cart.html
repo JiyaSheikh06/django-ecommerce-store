@@ -1,11 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart</title>
-</head>
-<body>
-    <h1>Cart Page</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}My Cart — MyShop{% endblock %}
+
+{% block content %}
+
+<h1 class="text-2xl font-bold mb-4">My Cart</h1>
+
+{% if cart_items %}
+
+<table class="w-full text-sm border border-gray-200 bg-white rounded mb-4">
+  <thead class="bg-gray-100 text-left">
+    <tr>
+      <th class="px-4 py-2 border-b">Product</th>
+      <th class="px-4 py-2 border-b">Price</th>
+      <th class="px-4 py-2 border-b">Qty</th>
+      <th class="px-4 py-2 border-b">Subtotal</th>
+      <th class="px-4 py-2 border-b">Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in cart_items %}
+    <tr class="border-b">
+      <td class="px-4 py-3">
+        <a href="/products/{{ item.product.pk }}/" class="text-blue-600 hover:underline font-medium">
+          {{ item.product.name }}
+        </a>
+      </td>
+      <td class="px-4 py-3">${{ item.product.price }}</td>
+      <td class="px-4 py-3">
+        <div class="flex items-center gap-1">
+          <form method="POST" action="{% url 'update_cart' item.pk %}/">
+            {% csrf_token %}
+            <button name="action" value="decrease"
+              class="border border-gray-300 rounded px-2 py-0.5 text-gray-600 hover:bg-gray-100">−</button>
+          </form>
+          <span class="px-2">{{ item.quantity }}</span>
+          <form method="POST" action="{% url 'update_cart' item.pk %}/">
+            {% csrf_token %}
+            <button name="action" value="increase"
+              class="border border-gray-300 rounded px-2 py-0.5 text-gray-600 hover:bg-gray-100">+</button>
+          </form>
+        </div>
+      </td>
+      <td class="px-4 py-3">${{ item.subtotal }}</td>
+      <td class="px-4 py-3">
+        <form method="POST" action="{% url 'remove_from_cart' item.pk %}">
+          {% csrf_token %}
+          <button type="submit" class="text-red-500 hover:underline text-xs">Remove</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<!-- Totals -->
+<div class="text-right text-sm mb-4">
+  <p>Subtotal: <strong>${{ cart_total }}</strong></p>
+  <p>Tax (10%): ${{ tax }}</p>
+  <p>Shipping: {% if shipping == 0 %}Free{% else %}${{ shipping }}{% endif %}</p>
+  <p class="text-base font-bold mt-1">Total: ${{ order_total }}</p>
+</div>
+
+<div class="flex items-center justify-between">
+  <form method="POST" action="{% url 'clear_cart' %}">
+    {% csrf_token %}
+    <button type="submit" class="text-sm text-red-500 hover:underline">Clear Cart</button>
+  </form>
+  <a href="{% url 'checkout' %}"
+    class="bg-gray-800 text-white text-sm px-6 py-2 rounded hover:bg-gray-700">
+    Proceed to Checkout
+  </a>
+</div>
+
+{% else %}
+<p class="text-gray-500">Your cart is empty. <a href="/products/" class="text-blue-600 hover:underline">Start shopping</a>.</p>
+{% endif %}
+
+{% endblock %}

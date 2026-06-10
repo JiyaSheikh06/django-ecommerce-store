@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Order {{ order.order_id }} — MyShop{% endblock %}
+
+{% block content %}
+
+<div class="mb-4 text-sm text-gray-500">
+  <a href="/" class="hover:underline">Home</a> &rsaquo;
+  <a href="/orders/history/" class="hover:underline">My Orders</a> &rsaquo;
+  {{ order.order_id }}
+</div>
+
+<h1 class="text-2xl font-bold mb-1">Order {{ order.order_id }}</h1>
+<p class="text-sm text-gray-500 mb-4">
+  Placed on {{ order.created_at|date:"F d, Y" }} &bull;
+  Status: <span class="font-medium capitalize">{{ order.status }}</span>
+</p>
+
+<!-- Items -->
+<table class="w-full text-sm border border-gray-200 bg-white rounded mb-5">
+  <thead class="bg-gray-100 text-left">
+    <tr>
+      <th class="px-4 py-2 border-b">Item</th>
+      <th class="px-4 py-2 border-b">Unit Price</th>
+      <th class="px-4 py-2 border-b">Qty</th>
+      <th class="px-4 py-2 border-b">Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in order.items.all %}
+    <tr class="border-b">
+      <td class="px-4 py-2">
+        {% if item.product %}{{ item.product.name }}{% else %}Deleted product{% endif %}
+      </td>
+      <td class="px-4 py-2">${{ item.price }}</td>
+      <td class="px-4 py-2">{{ item.quantity }}</td>
+      <td class="px-4 py-2">${{ item.subtotal }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="text-right text-sm font-bold mb-6">
+  Total: ${{ order.total }}
+</div>
+
+<!-- Shipping -->
+<h2 class="text-base font-semibold mb-2">Shipping Details</h2>
+<div class="text-sm text-gray-600 space-y-1 mb-6">
+  <p>{{ order.first_name }} {{ order.last_name }}</p>
+  <p>{{ order.email }}</p>
+  {% if order.phone %}<p>{{ order.phone }}</p>{% endif %}
+  <p>{{ order.address }}, {{ order.city }}{% if order.state %}, {{ order.state }}{% endif %} {{ order.zip_code }}, {{ order.country }}</p>
+  <p>Payment: <span class="capitalize">{{ order.payment_method }}</span></p>
+  {% if order.notes %}<p>Notes: {{ order.notes }}</p>{% endif %}
+</div>
+
+<a href="/orders/history/" class="text-blue-600 hover:underline text-sm">&larr; Back to Orders</a>
+
+{% endblock %}

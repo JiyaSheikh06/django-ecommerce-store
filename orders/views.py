@@ -4,6 +4,9 @@ from django.shortcuts import render
 def checkout_view(request):
     return render(request, 'orders/checkout.html')
 
+def order_detail_view(request):
+    return render(request,'orders/order_detail.html')
+
 def order_history_view(request):
     return render(request,'orders/order_history.html')
 

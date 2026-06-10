@@ -1,11 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accounts</title>
-</head>
-<body>
-    <h1>Login page</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Login — MyShop{% endblock %}
+
+{% block content %}
+
+<div class="max-w-sm mx-auto mt-10">
+  <h1 class="text-2xl font-bold mb-6">Login</h1>
+
+  <form method="POST" action="" class="space-y-4">
+    {% csrf_token %}
+
+    <div>
+      <label class="block text-sm mb-1">Username</label>
+      <input type="text" name="username" required
+        class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1">Password</label>
+      <input type="password" name="password" required
+        class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+    </div>
+
+    <button type="submit"
+      class="w-full bg-gray-800 text-white py-2 rounded hover:bg-gray-700 text-sm font-semibold">
+      Login
+    </button>
+  </form>
+
+  <p class="text-sm text-gray-500 mt-4 text-center">
+    Don't have an account? <a href="/accounts/register/" class="text-blue-600 hover:underline">Register</a>
+  </p>
+</div>
+
+{% endblock %}

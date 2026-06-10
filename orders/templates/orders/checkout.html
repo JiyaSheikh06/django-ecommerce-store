@@ -1,11 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders</title>
-</head>
-<body>
-    <h1>Checkout Page</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Checkout — MyShop{% endblock %}
+
+{% block content %}
+
+<h1 class="text-2xl font-bold mb-6">Checkout</h1>
+
+<form method="POST" action="{% url 'place_order' %}">
+  {% csrf_token %}
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+    <!-- Shipping Info -->
+    <div>
+      <h2 class="text-lg font-semibold mb-3">Shipping Details</h2>
+
+      <div class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm mb-1">First Name</label>
+            <input type="text" name="first_name" value="{{ user.first_name }}" required
+              class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Last Name</label>
+            <input type="text" name="last_name" value="{{ user.last_name }}"
+              class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Email</label>
+          <input type="email" name="email" value="{{ user.email }}" required
+            class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Phone</label>
+          <input type="tel" name="phone" placeholder="Phone number"
+            class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Address</label>
+          <input type="text" name="address" required placeholder="Street address"
+            class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm mb-1">City</label>
+            <input type="text" name="city" required
+              class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1">State</label>
+            <input type="text" name="state"
+              class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm mb-1">ZIP Code</label>
+            <input type="text" name="zip_code"
+              class="w-full border border-gray-300 rounded px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Country</label>
+            <select name="country"
+              class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+              <option>United States</option>
+              <option>United Kingdom</option>
+              <option>Canada</option>
+              <option>Australia</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Payment Method</label>
+          <select name="payment_method"
+            class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+            <option value="card">Credit / Debit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="cod">Cash on Delivery</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm mb-1">Order Notes (optional)</label>
+          <textarea name="notes" rows="2" placeholder="Any special instructions..."
+            class="w-full border border-gray-300 rounded px-3 py-2 text-sm resize-none"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Summary -->
+    <div>
+      <h2 class="text-lg font-semibold mb-3">Order Summary</h2>
+      <table class="w-full text-sm border border-gray-200 bg-white rounded mb-3">
+        <thead class="bg-gray-100 text-left">
+          <tr>
+            <th class="px-3 py-2 border-b">Item</th>
+            <th class="px-3 py-2 border-b">Qty</th>
+            <th class="px-3 py-2 border-b">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart_items %}
+          <tr class="border-b">
+            <td class="px-3 py-2">{{ item.product.name }}</td>
+            <td class="px-3 py-2">{{ item.quantity }}</td>
+            <td class="px-3 py-2">${{ item.subtotal }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <div class="text-sm space-y-1 mb-4">
+        <div class="flex justify-between">
+          <span>Subtotal</span><span>${{ cart_total }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Tax (10%)</span><span>${{ tax }}</span>
+        </div>
+        <div class="flex justify-between">
+          <span>Shipping</span>
+          <span>{% if shipping == 0 %}Free{% else %}${{ shipping }}{% endif %}</span>
+        </div>
+        <div class="flex justify-between font-bold text-base pt-1 border-t border-gray-200">
+          <span>Total</span><span>${{ order_total }}</span>
+        </div>
+      </div>
+
+      <button type="submit"
+        class="w-full bg-gray-800 text-white py-2.5 rounded hover:bg-gray-700 text-sm font-semibold">
+        Place Order
+      </button>
+    </div>
+
+  </div>
+</form>
+
+{% endblock %}

@@ -1,11 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orders</title>
-</head>
-<body>
-    <h1>Order History Page</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}My Orders — MyShop{% endblock %}
+
+{% block content %}
+
+<h1 class="text-2xl font-bold mb-4">My Orders</h1>
+
+{% if orders %}
+<table class="w-full text-sm border border-gray-200 bg-white rounded">
+  <thead class="bg-gray-100 text-left">
+    <tr>
+      <th class="px-4 py-2 border-b">Order ID</th>
+      <th class="px-4 py-2 border-b">Date</th>
+      <th class="px-4 py-2 border-b">Total</th>
+      <th class="px-4 py-2 border-b">Status</th>
+      <th class="px-4 py-2 border-b">Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr class="border-b hover:bg-gray-50">
+      <td class="px-4 py-3 font-medium">{{ order.order_id }}</td>
+      <td class="px-4 py-3">{{ order.created_at|date:"M d, Y" }}</td>
+      <td class="px-4 py-3">${{ order.total }}</td>
+      <td class="px-4 py-3 capitalize">{{ order.status }}</td>
+      <td class="px-4 py-3">
+        <a href="/orders/{{ order.pk }}/" class="text-blue-600 hover:underline">View</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="text-gray-500">You have no orders yet. <a href="/products/" class="text-blue-600 hover:underline">Start shopping</a>.</p>
+{% endif %}
+
+{% endblock %}
