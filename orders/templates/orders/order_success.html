@@ -27,13 +27,13 @@
         <tr class="border-b">
           <td class="px-4 py-2">{{ item.product.name }}</td>
           <td class="px-4 py-2">{{ item.quantity }}</td>
-          <td class="px-4 py-2">${{ item.subtotal }}</td>
+          <td class="px-4 py-2">RS.{{ item.subtotal }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
     <div class="px-4 py-3 text-right text-sm font-bold">
-      Total: ${{ order.total }}
+      Total: RS.{{ order.total }}
     </div>
   </div>
 

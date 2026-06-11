@@ -21,7 +21,7 @@
     <tr class="border-b hover:bg-gray-50">
       <td class="px-4 py-3 font-medium">{{ order.order_id }}</td>
       <td class="px-4 py-3">{{ order.created_at|date:"M d, Y" }}</td>
-      <td class="px-4 py-3">${{ order.total }}</td>
+      <td class="px-4 py-3">RS.{{ order.total }}</td>
       <td class="px-4 py-3 capitalize">{{ order.status }}</td>
       <td class="px-4 py-3">
         <a href="/orders/{{ order.pk }}/" class="text-blue-600 hover:underline">View</a>

@@ -31,16 +31,16 @@
       <td class="px-4 py-2">
         {% if item.product %}{{ item.product.name }}{% else %}Deleted product{% endif %}
       </td>
-      <td class="px-4 py-2">${{ item.price }}</td>
+      <td class="px-4 py-2">RS.{{ item.price }}</td>
       <td class="px-4 py-2">{{ item.quantity }}</td>
-      <td class="px-4 py-2">${{ item.subtotal }}</td>
+      <td class="px-4 py-2">RS.{{ item.subtotal }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
 
 <div class="text-right text-sm font-bold mb-6">
-  Total: ${{ order.total }}
+  Total: RS.{{ order.total }}
 </div>
 
 <!-- Shipping -->

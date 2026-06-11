@@ -69,6 +69,9 @@
             <label class="block text-sm mb-1">Country</label>
             <select name="country"
               class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+              <option>Pakistan</option>
+              <option>Saudia Arabia</option>
+              <option>India</option>
               <option>United States</option>
               <option>United Kingdom</option>
               <option>Canada</option>
@@ -112,7 +115,7 @@
           <tr class="border-b">
             <td class="px-3 py-2">{{ item.product.name }}</td>
             <td class="px-3 py-2">{{ item.quantity }}</td>
-            <td class="px-3 py-2">${{ item.subtotal }}</td>
+            <td class="px-3 py-2">RS.{{ item.subtotal }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -120,17 +123,17 @@
 
       <div class="text-sm space-y-1 mb-4">
         <div class="flex justify-between">
-          <span>Subtotal</span><span>${{ cart_total }}</span>
+          <span>Subtotal</span><span>RS.{{ cart_total }}</span>
         </div>
         <div class="flex justify-between">
-          <span>Tax (10%)</span><span>${{ tax }}</span>
+          <span>Tax (10%)</span><span>RS.{{ tax }}</span>
         </div>
         <div class="flex justify-between">
           <span>Shipping</span>
-          <span>{% if shipping == 0 %}Free{% else %}${{ shipping }}{% endif %}</span>
+          <span>{% if shipping == 0 %}Free{% else %}RS.{{ shipping }}{% endif %}</span>
         </div>
         <div class="flex justify-between font-bold text-base pt-1 border-t border-gray-200">
-          <span>Total</span><span>${{ order_total }}</span>
+          <span>Total</span><span>RS.{{ order_total }}</span>
         </div>
       </div>
 
