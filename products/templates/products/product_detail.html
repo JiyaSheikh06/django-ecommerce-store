@@ -35,6 +35,19 @@
     {% endif %}
 
     <p class="text-gray-600 text-sm mb-4">{{ product.description }}</p>
+    
+    {% if product.in_stock %}
+    <form method="POST" action="{% url 'add_to_cart' product.pk %}" class="flex items-center gap-3">
+      {% csrf_token %}
+      <label class="text-sm">Qty:</label>
+      <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}"
+        class="border border-gray-300 rounded px-2 py-1 w-16 text-sm" />
+      <button type="submit"
+        class="bg-gray-800 text-white text-sm px-5 py-2 rounded hover:bg-gray-700">
+        Add to Cart
+      </button>
+    </form>
+    {% endif %} 
   </div>
 </div>
 

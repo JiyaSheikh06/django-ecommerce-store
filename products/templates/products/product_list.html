@@ -38,7 +38,7 @@
     </div>
     {% endif %}
     <p class="font-semibold text-sm mb-0.5">{{ product.name }}</p>
-    <p class="text-gray-600 text-sm mb-2">${{ product.price }}</p>
+    <p class="text-gray-600 text-sm mb-2">RS.{{ product.price }}</p>
     {% if product.in_stock %}
     <a href="{% url 'product_detail' product.pk %}"
       class="block text-center bg-gray-800 text-white text-xs py-1.5 rounded hover:bg-gray-700">

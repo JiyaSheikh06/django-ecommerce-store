@@ -25,7 +25,7 @@
           {{ item.product.name }}
         </a>
       </td>
-      <td class="px-4 py-3">${{ item.product.price }}</td>
+      <td class="px-4 py-3">RS.{{ item.product.price }}</td>
       <td class="px-4 py-3">
         <div class="flex items-center gap-1">
           <form method="POST" action="{% url 'update_cart' item.pk %}/">
@@ -41,7 +41,7 @@
           </form>
         </div>
       </td>
-      <td class="px-4 py-3">${{ item.subtotal }}</td>
+      <td class="px-4 py-3">RS.{{ item.subtotal }}</td>
       <td class="px-4 py-3">
         <form method="POST" action="{% url 'remove_from_cart' item.pk %}">
           {% csrf_token %}
@@ -55,10 +55,10 @@
 
 <!-- Totals -->
 <div class="text-right text-sm mb-4">
-  <p>Subtotal: <strong>${{ cart_total }}</strong></p>
-  <p>Tax (10%): ${{ tax }}</p>
-  <p>Shipping: {% if shipping == 0 %}Free{% else %}${{ shipping }}{% endif %}</p>
-  <p class="text-base font-bold mt-1">Total: ${{ order_total }}</p>
+  <p>Subtotal: <strong>RS.{{ cart_total }}</strong></p>
+  <p>Tax (10%): RS.{{ tax }}</p>
+  <p>Shipping: {% if shipping == 0 %}Free{% else %}RS.{{ shipping }}{% endif %}</p>
+  <p class="text-base font-bold mt-1">Total: RS.{{ order_total }}</p>
 </div>
 
 <div class="flex items-center justify-between">
